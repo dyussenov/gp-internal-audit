@@ -16,14 +16,25 @@ class Item(models.Model):
     price = models.FloatField()
     amortization = models.IntegerField()
     operation_life = models.IntegerField()
-    receive_date = models.DateField(auto_now_add=True)
-    expiration_date = models.DateField()
-
-    def save(self, *args, **kwargs):
-        self.expiration_date = datetime.datetime.now() + datetime.timedelta(days=self.operation_life * 30)
-
-        # call the save() method of the parent
-        super(Item, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
+
+
+class Storage(models.Model):
+    item = models.ForeignKey(to=Item, on_delete=models.CASCADE)
+    receive_date = models.DateField(auto_now_add=True)
+    expiration_date = models.DateField()
+    current_price = models.FloatField(default=0.0)
+
+    def save(self, *args, **kwargs):
+        self.expiration_date = datetime.datetime.now() + datetime.timedelta(days=self.item.operation_life * 30)
+
+        price = self.item.price
+        amortization = self.item.amortization
+        self.current_price = price - price/100*amortization
+
+        super(Storage, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.item.name
