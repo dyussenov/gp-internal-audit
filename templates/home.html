@@ -1,12 +1,29 @@
 {% extends 'base.html' %}
 
-{% block title %}Home{% endblock %}
 
 {% block content %}
-  <h1 class="text-dark">Склад</h1>
+
+
+  <div class="d-flex  align-items-center">
+    <h1>Склад</h1>
+    <div class="ms-2"><button class="btn btn-sm btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      Добавить
+    </button></div>
+  </div>
+
+<div class="collapse" id="collapseExample">
+  <div class="card bg-secondary card-body">
+    <form action="{% url 'home' %}" method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit">Добавить</button>
+</form>
+  </div>
+</div>
+
   {% for cat, items in cats.items %}
 <hr color="white">
-  <h2 class="text-dark">{{cat}}</h2>
+  <h2>{{cat}}</h2>
     <div class="table-responsive">
         <table class="table table-striped table-dark table-sm">
           <thead>

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<form action="{% url 'categories' %}" method="post">
+          <h2>Добавить категорию</h2>
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit">Добавить</button>
+</form>
+<hr color="white">
+<h2>Категории</h2>
+<div class="row" style="max-width: 90vw">
+  {% for cat in categories %}
+        <div class="col-sm-3 mt-3 mb-3 mb-sm-0">
+    <div class="card bg-dark">
+      <div class="card-body">
+        <h5 class="card-title">{{ cat.name }}</h5>
+        <p class="card-text">{{ cat.description }}</p>
+      </div>
+    </div>
+  </div>
+    {% endfor %}
+</div>
+{% endblock %}
