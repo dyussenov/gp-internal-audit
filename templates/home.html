@@ -13,10 +13,10 @@
 
 <div class="collapse" id="collapseExample">
   <div class="card bg-secondary card-body">
-    <form action="{% url 'home' %}" method="post">
+    <form action="{% url 'home' %}" method="post" class="form-control">
           {% csrf_token %}
           {{ form.as_p }}
-          <button type="submit">Добавить</button>
+          <button class="btn btn-sm btn-primary" type="submit">Добавить</button>
 </form>
   </div>
 </div>

@@ -2,11 +2,11 @@
 
 
 {% block content %}
-<form action="{% url 'categories' %}" method="post">
+<form action="{% url 'categories' %}" class="form-control" method="post">
           <h2>Добавить категорию</h2>
           {% csrf_token %}
           {{ form.as_p }}
-          <button type="submit">Добавить</button>
+          <button class="btn btn-sm btn-primary" type="submit">Добавить</button>
 </form>
 <hr color="white">
 <h2>Категории</h2>
