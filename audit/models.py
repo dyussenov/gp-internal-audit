@@ -15,6 +15,7 @@ class Item(models.Model):
     category = models.ForeignKey(to=Category, on_delete=models.CASCADE)
     price = models.FloatField()
     amortization = models.IntegerField()
+    is_monthly_amortizations = models.BooleanField(default=False)
     operation_life = models.IntegerField()
 
     def __str__(self):
@@ -32,7 +33,7 @@ class Storage(models.Model):
 
         price = self.item.price
         amortization = self.item.amortization
-        self.current_price = price - price/100*amortization
+        self.current_price = price - price / 100 * amortization
 
         super(Storage, self).save(*args, **kwargs)
 
