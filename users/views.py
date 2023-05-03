@@ -18,7 +18,6 @@ def home(request):
     categories = audit_models.Category.objects.all()
     for cat in categories:
         objs = audit_models.Storage.objects.filter(item__category=cat)
-        print(objs)
         cats[str(cat)] = objs
 
     context = {
@@ -28,7 +27,7 @@ def home(request):
     return render(request, 'home.html', context)
 
 
-@login_required(login_url="login/")
+@login_required(login_url="/")
 def categories(request):
     if request.method == 'POST':
         form = audit_forms.CategoryForm(request.POST)
@@ -43,7 +42,7 @@ def categories(request):
     return render(request, 'categories.html', context)
 
 
-@login_required(login_url="login/")
+@login_required(login_url="/")
 def items(request):
     if request.method == 'POST':
         form = audit_forms.ItemForm(request.POST)
