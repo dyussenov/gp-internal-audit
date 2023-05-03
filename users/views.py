@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 
 from audit import models as audit_models
 from audit import forms as audit_forms
+from .services import form_home_context
 
 
 @login_required(login_url="login/")
@@ -13,16 +14,10 @@ def home(request):
             if form.is_valid():
                 form.save()
         return redirect('home')
-    cats = {}
-
-    categories = audit_models.Category.objects.all()
-    for cat in categories:
-        objs = audit_models.Storage.objects.filter(item__category=cat)
-        cats[str(cat)] = objs
 
     context = {
         'form': audit_forms.StorageForm,
-        'cats': cats
+        'cats': form_home_context()
     }
     return render(request, 'home.html', context)
 
