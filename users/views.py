@@ -50,3 +50,11 @@ def items(request):
         'categories': audit_models.Item.objects.all()
     }
     return render(request, 'items.html', context)
+
+
+@login_required(login_url="/")
+def update_amortizations(request):
+    items = audit_models.Storage.objects.filter(item__is_monthly_amortizations=True)
+    for item in items:
+        item.save()
+    return redirect('home')

@@ -30,12 +30,16 @@ class Storage(models.Model):
 
     def save(self, *args, **kwargs):
         self.expiration_date = datetime.datetime.now() + datetime.timedelta(days=self.item.operation_life * 30)
-
         price = self.item.price
-        amortization = self.item.amortization
-        self.current_price = price - price / 100 * amortization
+        if not self.receive_date:
+            self.current_price = price
+            super(Storage, self).save(*args, **kwargs)
+        else:
+            months = (datetime.date.today() - self.receive_date) // 30
+            amortization_percentage = months.days * self.item.amortization
+            self.current_price = price - price / 100 * amortization_percentage
+            super(Storage, self).save(*args, **kwargs)
 
-        super(Storage, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.item.name

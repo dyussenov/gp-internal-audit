@@ -6,9 +6,16 @@
 
   <div class="d-flex  align-items-center">
     <h1>Склад</h1>
-    <div class="ms-2"><button class="btn btn-sm btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    <div class="ms-2">
+      <button class="btn btn-sm btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
       Добавить
-    </button></div>
+      </button>
+    </div>
+    <div class="ms-2">
+      <button class="btn btn-sm btn-light" type="button">
+      Добавить
+      </button>
+    </div>
   </div>
 
 <div class="collapse" id="collapseExample">
@@ -31,7 +38,8 @@
               <th scope="col">Инвентарный номер</th>
               <th scope="col">Наименование</th>
               <th scope="col">Закупочная цена, тг</th>
-              <th scope="col">Годовая амортизация, %</th>
+              <th scope="col">Амортизация, %</th>
+              <th scope="col">Помесячная амортизация</th>
               <th scope="col">Текущая цена, тг</th>
               <th scope="col">Дата прибытия</th>
               <th scope="col">Дата списания</th>
@@ -45,6 +53,13 @@
             <td>{{ i.item.name }}</td>
             <td>{{ i.item.price }}</td>
             <td>{{ i.item.amortization }}</td>
+            <td>
+              {% if i.item.is_monthly_amortizations %}
+                Да
+              {% else %}
+                Нет
+              {% endif %}
+            </td>
             <td>{{ i.current_price }}</td>
             <td>{{ i.receive_date }}</td>
             <td>{{ i.expiration_date }}</td>
