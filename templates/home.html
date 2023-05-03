@@ -12,8 +12,8 @@
   </div>
 
 <div class="collapse" id="collapseExample">
-  <div class="card bg-secondary card-body">
-    <form action="{% url 'home' %}" method="post" class="form-control">
+  <div class="card bg-dark card-body">
+    <form action="{% url 'home' %}" method="post"  class="form-control bg-dark text-white">
           {% csrf_token %}
           {{ form.as_p }}
           <button class="btn btn-sm btn-primary" type="submit">Добавить запись</button>

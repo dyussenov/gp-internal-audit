@@ -2,7 +2,7 @@
 
 
 {% block content %}
-<form class="form-control" action="{% url 'items' %}" method="post">
+<form  class="form-control bg-dark text-white" action="{% url 'items' %}" method="post">
           <h2>Добавить экземпляр</h2>
           {% csrf_token %}
           {{ form.as_p }}
