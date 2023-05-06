@@ -12,6 +12,7 @@ class ItemForm(forms.ModelForm):
             'price': 'Цена',
             'amortization': 'Процент амортизации',
             'is_monthly_amortizations': 'Ежемесячная амортизация',
+            'image': 'Изображение',
             'operation_life': 'Срок эксплуатации'
         }
 

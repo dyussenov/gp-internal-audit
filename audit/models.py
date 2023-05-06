@@ -17,6 +17,7 @@ class Item(models.Model):
     amortization = models.IntegerField()
     is_monthly_amortizations = models.BooleanField(default=False)
     operation_life = models.IntegerField()
+    image = models.ImageField(upload_to='images/items/', null=True, default=None)
 
     def __str__(self):
         return self.name

@@ -47,7 +47,8 @@ def items(request):
 
     context = {
         'form': audit_forms.ItemForm,
-        'categories': audit_models.Item.objects.all()
+        'categories': audit_models.Item.objects.all(),
+        'items': audit_models.Item.objects.all()
     }
     return render(request, 'items.html', context)
 

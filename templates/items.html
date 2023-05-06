@@ -2,11 +2,30 @@
 
 
 {% block content %}
-<form  class="form-control bg-dark text-white" action="{% url 'items' %}" method="post">
-          <h2>Добавить экземпляр</h2>
-          {% csrf_token %}
-          {{ form.as_p }}
-          <button class="btn btn-sm btn-primary" type="submit">Добавить</button>
+<form class="form-control bg-dark text-white" action="{% url 'items' %}" method="post">
+    <h2>Добавить экземпляр</h2>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-sm btn-primary" type="submit">Добавить</button>
 </form>
+
+<div class="d-flex card-group flex-wrap">
+    {% for item in items %}
+    <div class="card text-light bg-dark" style="min-width: 18rem;max-width: 18rem;">
+        {% if item.image %}
+        <img class="card-img-top" src="{{item.image.url}}" alt="Нет изображения">
+        {% endif %}
+        <div class="card-body">
+            <h2>{{item.name}}</h2>
+            <ul>
+                <li> Категория: {{item.category}}</li>
+                <li> Цена: {{item.price}} тг.</li>
+                <li> Амортизация: {{item.amortization}}%</li>
+                <li> Срок эксплуатации: {{item.operation_life}} мес.</li>
+            </ul>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 
 {% endblock %}

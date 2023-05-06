@@ -85,8 +85,9 @@ AUTH_USER_MODEL = 'users.CustomUser'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 
 LANGUAGE_CODE = 'ru'
 
