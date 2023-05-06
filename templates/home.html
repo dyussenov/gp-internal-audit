@@ -4,71 +4,72 @@
 {% block content %}
 
 
-  <div class="d-flex  align-items-center">
+<div class="d-flex  align-items-center">
     <h1>Склад</h1>
     <div class="ms-2">
-      <button class="btn btn-sm btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-      Добавить
-      </button>
+        <button class="btn btn-sm btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                aria-expanded="false" aria-controls="collapseExample">
+            Добавить
+        </button>
     </div>
     <div class="ms-2">
-      <a href="{% url 'update' %}" class="btn btn-sm btn-light" type="button">
-      Обновить
-      </a>
+        <a href="{% url 'update' %}" class="btn btn-sm btn-light" type="button">
+            Обновить
+        </a>
     </div>
-  </div>
-
-<div class="collapse" id="collapseExample">
-  <div class="card bg-dark card-body">
-    <form action="{% url 'home' %}" method="post"  class="form-control bg-dark text-white">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <button class="btn btn-sm btn-primary" type="submit">Добавить запись</button>
-</form>
-  </div>
 </div>
 
-  {% for cat, items in cats.items %}
+<div class="collapse" id="collapseExample">
+    <div class="card bg-dark card-body">
+        <form action="{% url 'home' %}" method="post" class="form-control bg-dark text-white">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-sm btn-primary" type="submit">Добавить запись</button>
+        </form>
+    </div>
+</div>
+
+{% for cat, items in cats.items %}
 <hr color="white">
-  <h2>{{cat}}</h2>
-    <div class="table-responsive">
-        <table class="table table-striped table-dark table-sm">
-          <thead>
-            <tr>
-              <th scope="col">Инвентарный номер</th>
-              <th scope="col">Наименование</th>
-              <th scope="col">Закупочная цена, тг</th>
-              <th scope="col">Амортизация, %</th>
-              <th scope="col">Помесячная амортизация</th>
-              <th scope="col">Текущая цена, тг</th>
-              <th scope="col">Дата прибытия</th>
-              <th scope="col">Дата списания</th>
-              <th scope="col">Срок эксплуатации, мес.</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for i in items %}
-          <tr>
+<h2>{{cat}}</h2>
+<div class="table-responsive">
+    <table class="table table-striped table-dark table-sm">
+        <thead>
+        <tr>
+            <th scope="col">Инвентарный номер</th>
+            <th scope="col">Наименование</th>
+            <th scope="col">Закупочная цена, тг</th>
+            <th scope="col">Амортизация, %</th>
+            <th scope="col">Помесячная амортизация</th>
+            <th scope="col">Текущая цена, тг</th>
+            <th scope="col">Дата прибытия</th>
+            <th scope="col">Дата списания</th>
+            <th scope="col">Срок эксплуатации, мес.</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for i in items %}
+        <tr>
             <td>{{ i.pk }}</td>
-           <td>{{ i.item.name }}</td>
+            <td>{{ i.item.name }}</td>
             <td>{{ i.item.price }}</td>
             <td>{{ i.item.amortization }}</td>
             <td>
-              {% if i.item.is_monthly_amortizations %}
+                {% if i.item.is_monthly_amortizations %}
                 Да
-              {% else %}
+                {% else %}
                 Нет
-              {% endif %}
+                {% endif %}
             </td>
             <td>{{ i.current_price }}</td>
             <td>{{ i.receive_date }}</td>
             <td>{{ i.expiration_date }}</td>
             <td>{{ i.item.operation_life }}</td>
-          </tr>
-          {% endfor %}
-          </tbody>
-        </table>
-      </div>
-  {% endfor %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endfor %}
 
 {% endblock %}

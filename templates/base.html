@@ -92,6 +92,8 @@
 }
 
 
+
+
 </style>
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
     <symbol id="bootstrap" viewBox="0 0 118 94">
@@ -162,19 +164,19 @@
                                     <use xlink:href="#people-circle"/>
                                 </svg>
                                 {% if user.is_authenticated %}
-                                  {{ user.username }}
+                                {{ user.username }}
                                 {% else %}
-                                  Войдите в аккаунт
+                                Войдите в аккаунт
                                 {% endif %}
                             </a>
                         </li>
                         <li class="ms-4 d-flex align-items-center justify-content-center">
                             <div>
                                 {% if user.is_authenticated %}
-                              <a class="btn btn-sm btn-danger text-light me-2" href="{% url 'logout' %}">Выйти</a>
-                            {% else %}
-                              <a class="btn btn-sm btn-light text-dark me-2" href="{% url 'login' %}">Войти</a>
-                            {% endif %}
+                                <a class="btn btn-sm btn-danger text-light me-2" href="{% url 'logout' %}">Выйти</a>
+                                {% else %}
+                                <a class="btn btn-sm btn-light text-dark me-2" href="{% url 'login' %}">Войти</a>
+                                {% endif %}
                             </div>
                         </li>
                     </ul>
@@ -184,8 +186,8 @@
     </header>
     <div class="text-light">
 
-    {% block content %}
-    {% endblock %}
+        {% block content %}
+        {% endblock %}
     </div>
 </main>
 </body>
