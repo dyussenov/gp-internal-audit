@@ -1,4 +1,5 @@
 from django import forms
+
 from .models import Item, Category, Storage
 
 
@@ -39,6 +40,9 @@ class StorageForm(forms.ModelForm):
         exclude = ('expiration_date', 'current_price')
         labels = {
             "item": "Предмет",
+        }
+        widgets = {
+            'group': forms.HiddenInput(),
         }
 
     def __init__(self, *args, **kwargs):

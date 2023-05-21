@@ -29,7 +29,7 @@
     </div>
 </div>
 
-{% for cat, items in cats.items %}
+{% for cat, groups in cats.items %}
 <hr color="white">
 <h2>{{cat}}</h2>
 <div class="table-responsive">
@@ -37,8 +37,10 @@
         <thead>
         <tr>
             <th scope="col">Инвентарный номер</th>
+            <th scope="col">Артикул</th>
             <th scope="col">Наименование</th>
             <th scope="col">Закупочная цена, тг</th>
+            <th scope="col">Амортизация</th>
             <th scope="col">Амортизация, %</th>
             <th scope="col">Помесячная амортизация</th>
             <th scope="col">Текущая цена, тг</th>
@@ -47,29 +49,97 @@
             <th scope="col">Срок эксплуатации, мес.</th>
         </tr>
         </thead>
-        <tbody>
-        {% for i in items %}
-        <tr>
-            <td>{{ i.pk }}</td>
-            <td>{{ i.item.name }}</td>
-            <td>{{ i.item.price }}</td>
-            <td>{{ i.item.amortization }}</td>
-            <td>
-                {% if i.item.is_monthly_amortizations %}
-                Да
-                {% else %}
-                Нет
-                {% endif %}
-            </td>
-            <td>{{ i.current_price }}</td>
-            <td>{{ i.receive_date }}</td>
-            <td>{{ i.expiration_date }}</td>
-            <td>{{ i.item.operation_life }}</td>
-        </tr>
+
+
+        {% for group_name, items in groups.items %}
+            <tbody id="{{group_name}}" class="hidden-row">
+            {% for i in items %}
+            <tr>
+                <td>
+                    <p>
+                        <a class="btn btn-sm btn-primary show me-2" onclick="show('{{group_name}}')">+</a>
+                        {{ i.pk }},
+                        {{ items|length }} шт./гр.
+                    </p>
+                </td>
+                <td>{{ i.item.item_code }}</td>
+                <td>{{ i.item.name }}</td>
+                <td>{{ i.item.price }}</td>
+                <td>
+                    {% if i.item.is_amortization %}
+                    Да
+                    {% else %}
+                    Нет
+                    {% endif %}
+                </td>
+                <td>
+                    {% if i.item.is_amortization %}
+                    <p>{{ i.item.amortization }}</p>
+                    {% else %}
+                    <p>-</p>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if i.item.is_amortization %}
+                    {% if i.item.is_monthly_amortizations %}
+                    <p>Да</p>
+                    {% else %}
+                    <p>Нет</p>
+                    {% endif %}
+                    {% else %}
+                    <p>-</p>
+                    {% endif %}
+
+                </td>
+                <td>{{ i.current_price }}</td>
+                <td>{{ i.receive_date }}</td>
+                <td>{{ i.expiration_date }}</td>
+                <td>{{ i.item.operation_life }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
         {% endfor %}
-        </tbody>
+
+
     </table>
 </div>
 {% endfor %}
 
+<style>
+    .hidden-row > :not(:first-child) {
+        visibility: collapse;
+    }
+    .visible-row > :not(:first-child) {
+        visibility: visible;
+    }
+
+</style>
+
+<script>
+    function show(element_id) {
+        var element = document.getElementById(element_id);
+        element.classList.remove("hidden-row");
+        element.classList.add("visible-row");
+        var links = element.querySelectorAll("a");
+         for (var i = 0; i < links.length; i++) {
+        links[i].classList.remove("btn-primary");
+        links[i].classList.add("btn-danger");
+        links[i].textContent = "-";
+        links[i].setAttribute("onclick", "hide('" + element_id + "')");
+  }
+}
+function hide(elementId) {
+        var element = document.getElementById(elementId);
+        console.log(element)
+        element.classList.remove("visible-row");
+        element.classList.add("hidden-row");
+        link = element.querySelectorAll("a")[0];
+        link.classList.remove("btn-danger");
+        link.classList.add("btn-primary");
+        link.textContent = "+";
+        link.setAttribute("onclick", "show('" + elementId + "')");
+}
+</script>
+
 {% endblock %}
+

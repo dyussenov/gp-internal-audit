@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
@@ -16,7 +18,7 @@ def home(request):
         return redirect('home')
 
     context = {
-        'form': audit_forms.StorageForm,
+        'form': audit_forms.StorageForm(initial={'group': str(uuid4())}),
         'cats': form_home_context()
     }
     return render(request, 'home.html', context)

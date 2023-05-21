@@ -12,8 +12,10 @@ class Category(models.Model):
 
 class Item(models.Model):
     name = models.CharField(max_length=60)
+    item_code = models.IntegerField()
     category = models.ForeignKey(to=Category, on_delete=models.CASCADE)
     price = models.FloatField()
+    is_amortization = models.BooleanField(default=True)
     amortization = models.IntegerField()
     is_monthly_amortizations = models.BooleanField(default=False)
     operation_life = models.IntegerField()
@@ -28,17 +30,21 @@ class Storage(models.Model):
     receive_date = models.DateField(auto_now_add=True)
     expiration_date = models.DateField()
     current_price = models.FloatField(default=0.0)
+    group = models.CharField(default='1', max_length=44)
 
     def save(self, *args, **kwargs):
         self.expiration_date = datetime.datetime.now() + datetime.timedelta(days=self.item.operation_life * 30)
         price = self.item.price
-        if not self.receive_date:
+        if not self.receive_date and self.item.is_amortization:
             self.current_price = price
             super(Storage, self).save(*args, **kwargs)
-        else:
+        elif self.receive_date:
             months = (datetime.date.today() - self.receive_date) // 30
             amortization_percentage = months.days * self.item.amortization
             self.current_price = price - price / 100 * amortization_percentage
+            super(Storage, self).save(*args, **kwargs)
+        else:
+            self.current_price = price
             super(Storage, self).save(*args, **kwargs)
 
 

@@ -11,6 +11,17 @@ def form_home_context():
     categories = audit_models.Category.objects.all()
     for cat in categories:
         objs = audit_models.Storage.objects.filter(item__category=cat)
-        cats[str(cat)] = objs
+        cat_name = str(cat)
+        cats[cat_name] = {}
+        for o in objs:
+            if o.group not in cats[cat_name]:
+                cats[cat_name][o.group] = []
+                cats[cat_name][o.group].append(o)
+            else:
+                cats[cat_name][o.group].append(o)
 
+
+
+
+    print(cats)
     return cats
