@@ -1,7 +1,10 @@
 from uuid import uuid4
+import csv
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.db.models import Count
+from django.http import HttpResponse
 
 from audit import models as audit_models
 from audit import forms as audit_forms
@@ -61,3 +64,26 @@ def update_amortizations(request):
     for item in items:
         item.save()
     return redirect('home')
+
+
+@login_required(login_url="/")
+def shortage(request):
+    result = audit_models.Storage.objects.values('item__name', 'item__amount').annotate(count=Count('id'))
+    data = []
+    for r in result:
+        s = r['item__amount'] - r['count']
+        r['status'] = 'Недостача' if s > 0 else 'Избыток'
+        r['dif'] = s
+        data.append(r)
+    print(data)
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="data.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Наименование', 'Количество', 'Количество записей', 'Статус', 'Разница'])
+
+    for item in data:
+        writer.writerow([item['item__name'], item['item__amount'], item['count'], item['status'], item['dif']])
+
+    return response

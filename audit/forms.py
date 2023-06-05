@@ -11,10 +11,12 @@ class ItemForm(forms.ModelForm):
             'name': 'Наименование',
             'category': 'Категория',
             'price': 'Цена',
+            'is_amortization': 'Амортизация',
             'amortization': 'Процент амортизации',
             'is_monthly_amortizations': 'Ежемесячная амортизация',
             'image': 'Изображение',
-            'operation_life': 'Срок эксплуатации'
+            'operation_life': 'Срок эксплуатации',
+            'amount': 'Количество'
         }
 
     def __init__(self, *args, **kwargs):

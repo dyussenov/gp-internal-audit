@@ -19,9 +19,4 @@ def form_home_context():
                 cats[cat_name][o.group].append(o)
             else:
                 cats[cat_name][o.group].append(o)
-
-
-
-
-    print(cats)
     return cats
